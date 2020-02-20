@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/rakanalh/scheduler/storage"
-	"github.com/rakanalh/scheduler/task"
+	"github.com/tgmarket/scheduler/storage"
+	"github.com/tgmarket/scheduler/task"
 )
 
 // Scheduler is used to schedule tasks. It holds information about those tasks
@@ -211,4 +211,5 @@ func (scheduler *Scheduler) runPending() {
 func (scheduler *Scheduler) registerTask(task *task.Task) {
 	_, _ = scheduler.funcRegistry.Add(task.Func)
 	scheduler.tasks[task.Hash()] = task
+	scheduler.taskStore.Add(task)
 }
