@@ -50,6 +50,7 @@ func (scheduler *Scheduler) RunAt(time time.Time, function task.Function, params
 	task.NextRun = time
 
 	scheduler.registerTask(task)
+	scheduler.taskStore.Add(task)
 	return task.Hash(), nil
 }
 
@@ -72,6 +73,7 @@ func (scheduler *Scheduler) RunEvery(duration time.Duration, function task.Funct
 	task.NextRun = time.Now().Add(duration)
 
 	scheduler.registerTask(task)
+	scheduler.taskStore.Add(task)
 	return task.Hash(), nil
 }
 
@@ -211,5 +213,4 @@ func (scheduler *Scheduler) runPending() {
 func (scheduler *Scheduler) registerTask(task *task.Task) {
 	_, _ = scheduler.funcRegistry.Add(task.Func)
 	scheduler.tasks[task.Hash()] = task
-	scheduler.taskStore.Add(task)
 }
